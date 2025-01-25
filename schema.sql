@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS hosts (
+	id TEXT PRIMARY KEY NOT NULL,
+  host TEXT NOT NULL,
+	protocol TEXT NOT NULL,
+	port TEXT,
+	period INTEGER NOT NULL,
+	duration INTEGER NOT NULL,
+	frequency INTEGER NOT NULL,
+	rules TEXT
+);
