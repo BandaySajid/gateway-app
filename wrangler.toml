@@ -13,5 +13,5 @@ kv_namespaces = [{ binding = "KV", id = "44982c3712ee40b1b7fc5d8d1bafe5c8" }]
 
 [env.production]
 name = "gateway-app"
-d1_databases = [{ binding = "DB", database_name = "gateway", database_id = "5c1cf2d2-80ed-4e4b-8b6c-0799b1734c02" }]
-kv_namespaces = [{ binding = "KV", id = "44982c3712ee40b1b7fc5d8d1bafe5c8" }]
+d1_databases = [{ binding = "DB", database_name = "gateway", database_id = "db-id" }]
+kv_namespaces = [{ binding = "KV", id = "production_kv_namespace_id" }]

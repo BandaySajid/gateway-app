@@ -2,9 +2,14 @@
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-empty-object-type
 interface Env {
-  ENV: string
   DB: D1Database
+  KV: KVNamespace
+  ENV: string
   JWT_SECRET: string
   CRYPTO_IV: string
   ENC_KEY: string
+  CLIENT_ID: string
+  REDIRECT_URI: string
+  CLIENT_SECRET: string
+  FRONTEND_HOST: string
 }

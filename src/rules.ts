@@ -27,23 +27,26 @@ export enum RuleOperators {
 	EXISTS = 'EXISTS',
 	DOES_NOT_EXIST = 'DOES_NOT_EXIST',
 }
-
 export type RuleValue = {
 	key?: string;
 	value: string | boolean | number | undefined;
 };
+
+export type Logic = "and" | "or" | null;
 
 export interface Rule {
 	id: number;
 	type: RuleTypes;
 	operator: RuleOperators;
 	value: RuleValue;
+	logic: Logic
 }
 
 interface RuleBuildErrorData {
 	type?: string;
 	value?: RuleValue;
 	operator?: string;
+	logic?: Logic;
 }
 export class RuleBuildError extends Error {
 	data: RuleBuildErrorData;
@@ -52,28 +55,34 @@ export class RuleBuildError extends Error {
 		super(message);
 		this.name = 'RuleBuildError';
 		this.message = message;
-		this.data = { value: data.value, type: data.type, operator: data.operator };
+		this.data = { value: data.value, type: data.type, operator: data.operator, logic: data.logic };
 	}
 }
 
-export function buildRule(id: number, type: RuleTypes, operator: RuleOperators, value: RuleValue): Rule {
+export function buildRule(id: number, type: RuleTypes, operator: RuleOperators, value: RuleValue, logic: Logic): Rule {
+	const r = { value, operator, type };
+
 	if (!(type in RuleTypes)) {
-		throw new RuleBuildError('Unsupported Rule Type!', { value, operator, type });
+		throw new RuleBuildError('Unsupported Rule Type!', r);
 	}
 
 	if (!(operator in RuleOperators)) {
-		throw new RuleBuildError('Unsupported Rule Operator!', { value, operator, type });
+		throw new RuleBuildError('Unsupported Rule Operator!', r);
 	}
 
 	if (!value) {
-		throw new RuleBuildError('Invalid Rule Value!', { type, value, operator });
+		throw new RuleBuildError('Invalid Rule Value!', r);
+	}
+
+	if (logic && (logic !== 'and' && logic !== 'or')) {
+		throw new RuleBuildError('Invalid Rule Logic!', r);
 	}
 
 	if (!ruleConstraints[type as keyof typeof ruleConstraints]?.includes(operator)) {
-		throw new RuleBuildError('Unsupported rule operator!', { type, value, operator });
+		throw new RuleBuildError('Unsupported rule operator!', r);
 	}
 
-	const rule: Rule = { id, type, operator, value };
+	const rule: Rule = { id, type, operator, value, logic };
 
 	return rule;
 }
