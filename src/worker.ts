@@ -274,6 +274,25 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 	}
 });
 
+async function purgeHostDataCache(id: string, env: Env) {
+	try {
+		//TODO: ADD COMMUNICATOR AUTH. Also through cloudflare block the request that is does not authenticated 
+		const r = await fetch(`${env.GATEWAY_COMMUNICATOR_HOST}/cache/hosts/${id}`, {
+			method: "DELETE",
+			headers: {
+				"Authorization": env.GATEWAY_COMMUNICATOR_SECRET
+			}
+		});
+
+		if (r.status !== 200) {
+			const jr = await r.json();
+			console.log('error purging host data cache', jr);
+		}
+	} catch (err) {
+		console.error("Error purging host data cache", err);
+	}
+}
+
 router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: Env, ctx: ExecutionContext) => {
 	try {
 		let id = req.params.id;
@@ -335,6 +354,8 @@ router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: En
 				req.user.id,
 			)
 			.run();
+
+		ctx.waitUntil(purgeHostDataCache(id, env))
 
 		return json({ success: true, id: id }, { status: 200 });
 	} catch (err) {

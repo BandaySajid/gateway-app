@@ -12,4 +12,6 @@ interface Env {
   REDIRECT_URI: string
   CLIENT_SECRET: string
   FRONTEND_HOST: string
+  GATEWAY_COMMUNICATOR_HOST: string
+  GATEWAY_COMMUNICATOR_SECRET: string
 }
