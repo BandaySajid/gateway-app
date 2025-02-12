@@ -57,14 +57,14 @@ const Sidebar = () => {
                 <span className='space-x-2 p-2 text-blue-400'>{ac?.authState.user.email}</span>
                 </li>
                 < hr className='border-gray-700 my-2'></hr>
+                <li>
+                <Link onClick={toggleSidebar} to="/dashboard" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
+                  <span>Dashboard <Badge  variant={'outline'}>coming soon</Badge></span>
+                </Link>
+                </li>
                 </>
-              )}
 
-            <li>
-              <Link onClick={toggleSidebar} to="/dashboard" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                <span>Dashboard <Badge  variant={'outline'}>coming soon</Badge></span>
-              </Link>
-            </li>
+              )} 
 
               <li>
                 <Link to="/plans" onClick={toggleSidebar} className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">

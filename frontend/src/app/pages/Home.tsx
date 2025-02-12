@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function Home() {
 	return (
 		<main className="container mx-auto p-4 text-white">
-			{/* Hero Section */}
 			<section className="text-center mb-12 min-h-screen flex items-center justify-center">
 				<div className="w-full">
 					<h1 className="text-5xl font-bold mb-6">
@@ -68,7 +67,7 @@ export default function Home() {
 							title="Free"
 							description="Perfect for getting started."
 							price="$0/month"
-							features={["2 Rules", "200k requests", "Ratlimited requests not counted towards usage"]}
+							features={["2 Rules", "Upto 10 rule expressions", "100k requests", "Ratlimited requests not counted towards usage"]}
 							onUpgrade={() => window.location.href = '/auth'}
 							upgradable={true}
 							customButtonText="Get Started"
@@ -77,7 +76,7 @@ export default function Home() {
 							title="Premium"
 							description="For large scale projects."
 							price="$4.99/month"
-							features={["Upto 10 Rules", "Unlimited Requests", "24/7 Support", "No charge for ratelimited requests"]}
+							features={["Upto 10 Rules", "Upto 10 rule expressions", "Unlimited Requests", "24/7 Support", "No charge for ratelimited requests", "Custom domain"]}
 							onUpgrade={() => window.location.href = '/auth'}
 							upgradable={true}
 							customButtonText="Get Started"

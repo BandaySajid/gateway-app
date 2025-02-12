@@ -13,7 +13,7 @@ export default function Plans() {
       title: "Free",
       description: "Perfect for getting started.",
       price: "$0",
-      features: ["2 rules", "200k requests", "Ratelimited requests are not counted towards usage."],
+      features: ["2 rules", "Upto 10 rule expressions", "100k requests", "Ratelimited requests are not counted towards usage."],
       mostPopular: false,
       currentPlan: plan === Plan.free && true,
       onUpgrade: () => {
@@ -28,7 +28,7 @@ export default function Plans() {
       title: "Premium",
       description: "For large-scale projects",
       price: "$4.99",
-      features: ["Upto 10 rules", "Unlimited requests", "24/7 Support", "No charge for ratelimited requests."],
+      features: ["10 rules","Upto 10 rule expressions", "Unlimited requests", "24/7 Support", "No charge for ratelimited requests.", "Custom domain"],
       mostPopular: false,
       upgradable: plan === Plan.premium ? false : true,
       currentPlan: plan === Plan.premium && true,
@@ -42,7 +42,7 @@ export default function Plans() {
     {
       title: "Custom Plan",
       description: "Tailor-made solution for your specific requirements.",
-      price: "$4.99",
+      price: "$$$",
       features: ["Unlimited possibilities"],
       mostPopular: false,
       upgradable: true,

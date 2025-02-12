@@ -276,7 +276,6 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 
 async function purgeHostDataCache(id: string, env: Env) {
 	try {
-		//TODO: ADD COMMUNICATOR AUTH. Also through cloudflare block the request that is does not authenticated 
 		const r = await fetch(`${env.GATEWAY_COMMUNICATOR_HOST}/cache/hosts/${id}`, {
 			method: "DELETE",
 			headers: {
