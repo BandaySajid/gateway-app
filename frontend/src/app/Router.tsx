@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { AuthContext} from '@/context/AuthContext';
 import SettingsPage from './pages/Settings';
 import Plans from './pages/Plans';
+import Contact from './pages/Contact';
 
 function Router() {
 	const authContext = useContext(AuthContext);
@@ -32,6 +33,7 @@ function Router() {
 									<Route path="/auth" element={<Navigate to="/rules" />} />
 									<Route path="/settings" element={<SettingsPage />} />
 									<Route path="/plans" element={<Plans />} />
+									<Route path="/contact" element={<Contact />} />
 									<Route path="/dashboard" element={<Navigate to="/rules" replace={true} />} />
 									<Route path="*" element={<NotFound />} />
 								</>
@@ -40,6 +42,7 @@ function Router() {
 									<Route path="/" element={<Home />} />
 									<Route path="/auth" element={<Auth />} />
 									<Route path="/plans" element={<Plans />} />
+									<Route path="/contact" element={<Contact />} />
 									<Route path="*" element={<Navigate to="/auth" replace={true} />} />
 								</>
 							)}

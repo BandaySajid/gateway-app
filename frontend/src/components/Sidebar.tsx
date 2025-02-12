@@ -28,7 +28,7 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "border rounded-lg shadow-sm dark:border-neutral-800 dark:bg-neutral-950 text-white absolute top-0 right-0 z-2 transition-all duration-300",
+        "border rounded-lg shadow-sm dark:border-neutral-800 dark:bg-neutral-950 text-white absolute top-0 right-0 z-7 transition-all duration-300",
         isCollapsed ? "w-0" : "w-full md:w-64 min-h-screen"
       )}
     >
@@ -63,7 +63,6 @@ const Sidebar = () => {
                 </Link>
                 </li>
                 </>
-
               )} 
 
               <li>
@@ -122,6 +121,13 @@ const Sidebar = () => {
               </li>
               </>
             )}
+
+              <li>
+                <Link onClick={toggleSidebar} to="/contact" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
+                <span>Contact Us</span>
+                </Link>
+              </li>
+
           </ul>
         </nav>
       )}

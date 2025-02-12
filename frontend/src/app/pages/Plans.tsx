@@ -2,6 +2,7 @@ import { PlanCard } from "@/components/PlanCard";
 import { PlanCardProps } from "@/components/PlanCard";
 import { Plan, AuthContext } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
+import NodeAnimation from "@/components/NodeAnimation";
 import { useContext } from "react";
 
 export default function Plans() {
@@ -13,7 +14,7 @@ export default function Plans() {
       title: "Free",
       description: "Perfect for getting started.",
       price: "$0",
-      features: ["2 rules", "Upto 10 rule expressions", "100k requests", "Ratelimited requests are not counted towards usage."],
+      features: ["2 rules", "Upto 10 rule expressions", "100k requests per day", "Ratelimited requests are not counted towards usage."],
       mostPopular: false,
       currentPlan: plan === Plan.free && true,
       onUpgrade: () => {
@@ -28,7 +29,7 @@ export default function Plans() {
       title: "Premium",
       description: "For large-scale projects",
       price: "$4.99",
-      features: ["10 rules","Upto 10 rule expressions", "Unlimited requests", "24/7 Support", "No charge for ratelimited requests.", "Custom domain"],
+      features: ["10 rules","Upto 10 rule expressions", "1 million requests per day", "24/7 Support", "No charge for ratelimited requests.", "Custom domain"],
       mostPopular: false,
       upgradable: plan === Plan.premium ? false : true,
       currentPlan: plan === Plan.premium && true,
@@ -47,16 +48,15 @@ export default function Plans() {
       mostPopular: false,
       upgradable: true,
       onUpgrade: () => {
-        if(!ac?.authState.isAuthenticated){
           window.location.href = '/contact';
-        }
       },
       customButtonText: "Contact Us",
     },
   ] as PlanCardProps[];
 
-  return (
-    <div className="container mx-auto py-10">
+  return (<>
+		<NodeAnimation particleCount={40}/>
+    <div className="container mx-auto py-10 z-5">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-400">Choose Your Plan</h1>
       <div className={cn("p-4 grid grid-cols- gap-6", `md:grid-cols-${plans.length}`)}>
         {plans.map((plan) => (
@@ -75,5 +75,6 @@ export default function Plans() {
         ))}
       </div>
     </div>
+  </>
   );
 }

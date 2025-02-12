@@ -218,7 +218,7 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 		}
 
 		const period = body.period;
-		const duration = body.duration;
+		const duration = body.period; // setting it to period currently
 
 		if (period > TWENTY_FOUR_HOURS) {
 			return json({ success: false, error: 'period should be less than that!' }, { status: 400 });
@@ -327,7 +327,7 @@ router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: En
 		}
 
 		const period = body.period;
-		const duration = body.duration;
+		const duration = body.period; // setting it to period currently
 
 		if (period > TWENTY_FOUR_HOURS) {
 			return json({ success: false, error: 'period should be less than that!' }, { status: 400 });

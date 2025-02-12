@@ -12,11 +12,14 @@ const AuthFetch = async (url: string, options: RequestInit = {}) => {
       ...headers,
       ...(options.headers as Record<string, string>)
     },
+    redirect: "manual"
   });
 
-  if (response.status === 302) {
-    window.location.href = response.url;
-    return response;
+  if (response.type === "opaqueredirect") {
+    if (response.url) {
+      window.location.href = response.url;
+      return response;
+    }
   }
 
   return response;

@@ -1,4 +1,9 @@
 import { z } from 'zod';
+const MAX_FREQUENCY_PER_SECOND = 5;
+
+function validateFrequencyLimit(period: number, frequency: number): boolean {
+  return (frequency / period) > MAX_FREQUENCY_PER_SECOND; //limiting per second requests to 5
+}
 
 const ExpressionSchema = z.object({
   id: z.number(),
@@ -72,6 +77,14 @@ const HostDataSchema = z.object({
 }, {
   message: "Port should not be provided when host is a hostname.",
   path: ["port"],
+}).refine((data) => {
+  if (validateFrequencyLimit(data.period, data.frequency)) {
+    return false;
+  }
+  return true;
+}, {
+  message: `Frequency is too high for this period. The frequency must not exceed ${MAX_FREQUENCY_PER_SECOND} requests per second.`,
+  path: ["frequency"],
 });
 
 export type HostData = z.infer<typeof HostDataSchema>;
