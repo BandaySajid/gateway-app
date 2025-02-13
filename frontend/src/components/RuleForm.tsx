@@ -200,11 +200,11 @@ export default function RatelimitForm() {
 	};
 
 	return (
-		<Card className="w-full md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col">
+		<Card className="w-full bg-neutral-900 border border-neutral-700 text-neutral-50 md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col">
 			<CardHeader>
 				<CardTitle>
 					<Back />
-					<h1 className="text-3xl font-bold text-center dark:text-white">Rule</h1>
+					<h1 className="text-3xl font-bold text-center text-white">Rule</h1>
 				</CardTitle>
 			</CardHeader>
 			< CardContent className="space-y-4 text-gray-300" >

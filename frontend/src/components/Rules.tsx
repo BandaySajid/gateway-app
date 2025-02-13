@@ -97,11 +97,11 @@ const Rules = () => {
   };
 
   return (
-    <Card className="w-full md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col">
+    <Card className="w-full md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col bg-neutral-900 border border-neutral-700 text-neutral-50">
       <CardHeader>
         <CardTitle>
           <Back />
-          <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">Rules</h1>
+          <h1 className="text-3xl font-bold text-center text-white mb-4">Rules</h1>
         </CardTitle>
       </CardHeader>
       <CardContent>

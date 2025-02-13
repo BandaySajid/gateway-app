@@ -29,14 +29,14 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "border rounded-lg shadow-sm dark:border-neutral-800 dark:bg-neutral-950 text-white absolute top-0 right-0 z-7 transition-all duration-300",
+        "border rounded-lg shadow-sm border-neutral-800 bg-neutral-950 text-white absolute top-0 right-0 z-7 transition-all duration-300",
         isCollapsed ? "w-0" : "w-full md:w-64 min-h-screen"
       )}
     >
       <Button
         variant={"outline"}
         onClick={toggleSidebar}
-        className={`p-4 text-left ${isCollapsed ? 'absolute': 'fixed'} hover:bg-gray-700 transition-colors duration-200 right-2 top-6 z-3`}
+        className={`p-4 text-left ${isCollapsed ? 'absolute': 'fixed'} hover:bg-gray-700 transition-colors duration-200 right-2 top-6 z-3 bg-neutral-900 text-neutral-50 border-neutral-800`}
       >
         {isCollapsed ? (
           <MenuIcon className="h-6 w-6" />
@@ -46,7 +46,7 @@ const Sidebar = () => {
       </Button>
 
       <div  className={cn(
-        "fixed h-full dark:bg-neutral-950 w-full",
+        "fixed h-full bg-neutral-950 w-full",
         isCollapsed ? "w-0" : "w-full md:w-64 min-h-screen"
       )}>
       {!isCollapsed && (

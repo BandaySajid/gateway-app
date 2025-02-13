@@ -30,7 +30,7 @@ export default function Home() {
 				<div className="w-full">
 					<h2 className="text-3xl font-semibold mb-6 text-center">Key Features</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 p-4 flex flex-col items-start justify-between text-neutral-50 border-neutral-800">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">Advanced Rule Engine</CardTitle >
 								<CardDescription>Create custom rules to ratelimit your hosts.</CardDescription >
@@ -40,7 +40,7 @@ export default function Home() {
 							 </CardContent >
 						 </Card >
 
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start justify-between">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">Gateway Functionality</CardTitle >
 								<CardDescription>Use Amplizard as a gateway to manage and enforce ratelimits.</CardDescription >
@@ -50,7 +50,7 @@ export default function Home() {
 							 </CardContent >
 						 </Card >
 
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start justify-between">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">Cost-Effective Solution</CardTitle >
 								<CardDescription>No charge for ratelimited requests.</CardDescription >
@@ -67,7 +67,7 @@ export default function Home() {
 				<div className="w-full">
 					<h2 className="text-3xl font-semibold mb-6 text-center">Use Cases</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						<Card className="p-4 flex flex-col items-start">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">AI Model APIs</CardTitle>
 								<CardDescription>Protect your AI model APIs from abuse and ensure fair usage.</CardDescription>
@@ -81,7 +81,7 @@ export default function Home() {
 							</CardContent>
 						</Card>
 
-						<Card className="p-4 flex flex-col items-start ">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start ">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">General APIs</CardTitle>
 								<CardDescription>Protect your APIs from excessive requests and ensure optimal performance.</CardDescription>
@@ -95,10 +95,10 @@ export default function Home() {
 							</CardContent>
 						</Card>
 
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start justify-between">
 							<CardHeader>
-								<CardTitle className="text-cyan-400">Serverless & Edge Environments</CardTitle>
-								<CardDescription>True ratelimiting for serverless and edge environments like Cloudflare Workers and Vercel.</CardDescription>
+								<CardTitle className="text-cyan-400">Serverless & Edge Environments</CardTitle >
+								<CardDescription>True ratelimiting for serverless and edge environments like Cloudflare Workers and Vercel.</CardDescription >
 							</CardHeader>
 							<CardContent>
 								<ul className="list-disc pl-5 space-y-1">
@@ -116,7 +116,7 @@ export default function Home() {
 				<div className="w-full">
 					<h2 className="text-3xl font-semibold mb-6 text-center">Traditional Ratelimiting vs Amplizard</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start justify-between">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">Traditional Ratelimiting</CardTitle >
 								<CardDescription>All requests reach your server.</CardDescription >
@@ -130,7 +130,7 @@ export default function Home() {
 							 </CardContent >
 						 </Card >
 
-						<Card className="p-4 flex flex-col items-start justify-between">
+						<Card className="bg-neutral-950 text-neutral-50 border-neutral-800 p-4 flex flex-col items-start justify-between">
 							<CardHeader>
 								<CardTitle className="text-cyan-400">Amplizard Gateway</CardTitle >
 								<CardDescription>Ratelimited requests are stopped before reaching your server.</CardDescription >
