@@ -1,5 +1,6 @@
 import AuthForm from "@/components/AuthForm";
 import { Link } from "react-router-dom";
+import NodeAnimation from "@/components/NodeAnimation";
 
 // Assuming Metadata is defined elsewhere, otherwise import it or define it here.
 interface Metadata {
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
 
 export default function AuthenticationPage() {
   return (
-        <div className="flex-grow lg:p-8 text-white flex justify-center items-center">
+      <>
+        <NodeAnimation/>
+        <div className="flex-grow lg:p-8 text-white flex justify-center items-center z-4">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-xl font-semibold tracking-tight">
@@ -40,5 +43,6 @@ export default function AuthenticationPage() {
             </p>
           </div>
         </div>
+        </>
   );
 }

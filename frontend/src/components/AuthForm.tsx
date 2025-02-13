@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils"
 import { GoogleLogin } from '@react-oauth/google';
 import { API_HOST } from "../../config.mjs"
 import { AuthContext } from "@/context/AuthContext";
-import NodeAnimation from "./NodeAnimation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -29,7 +28,6 @@ export default function UserAuthForm({ className, ...props }: UserAuthFormProps)
   }
   return (
   <>
-    <NodeAnimation/>
     <div className={cn("grid gap-6", className, "flex flex-col justify-center items-center") } {...props}>
         <GoogleLogin theme="filled_black" size="medium" onSuccess={handleGoogleLogin} onError={() => console.log("Login Failed")} />
     </div>

@@ -29,7 +29,7 @@ export default function Plans() {
       title: "Premium",
       description: "For large-scale projects",
       price: "$4.99",
-      features: ["10 rules","Upto 10 rule expressions", "1 million requests per day", "24/7 Support", "No charge for ratelimited requests.", "Custom domain"],
+      features: ["5 rules","Upto 10 rule expressions", "1 million requests per day", "24/7 Support", "No charge for ratelimited requests.", "Custom domain"],
       mostPopular: false,
       upgradable: plan === Plan.premium ? false : true,
       currentPlan: plan === Plan.premium && true,

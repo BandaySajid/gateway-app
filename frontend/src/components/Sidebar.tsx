@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import SLink from './SLink';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -58,41 +59,30 @@ const Sidebar = () => {
                 </li>
                 < hr className='border-gray-700 my-2'></hr>
                 <li>
-                <Link onClick={toggleSidebar} to="/dashboard" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
+                <Link onClick={toggleSidebar} to="/dashboard" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 hover:text-cyan-400 text-neutral-400">
                   <span>Dashboard <Badge  variant={'outline'}>coming soon</Badge></span>
                 </Link>
                 </li>
                 </>
               )} 
 
-              <li>
-                <Link to="/plans" onClick={toggleSidebar} className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                  <span>Plans</span>
-                </Link>
-              </li>
+              <SLink to="/plans" toggleSidebar={toggleSidebar} text="Plans" />
 
 
             {!ac?.authState.isAuthenticated && (
-                <li>
-                  <Link onClick={toggleSidebar} to="/auth" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                  <span>Signin</span>
-                  </Link>
-                </li>
-
+                <SLink to="/auth" toggleSidebar={toggleSidebar} text="Signin" />
               )}
 
             {ac?.authState.isAuthenticated && (
               <>
-              <li>
-              <Link to="/rules" onClick={toggleSidebar} className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                <span>Rules</span>
-              </Link>
-            </li>
-              <li>
-                <Link to="/settings" onClick={toggleSidebar} className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                  <span>Settings</span>
-                </Link>
-              </li>
+              <SLink to="/rules" toggleSidebar={toggleSidebar} text="Rules" />
+              <SLink to="/settings" toggleSidebar={toggleSidebar} text="Settings" />
+              </>
+            )}
+
+            <SLink to="/contact" toggleSidebar={toggleSidebar} text="Contact Us" />
+
+            {ac?.authState.isAuthenticated && (
               <li>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -119,15 +109,7 @@ const Sidebar = () => {
                   </AlertDialogContent>
                 </AlertDialog>
               </li>
-              </>
             )}
-
-              <li>
-                <Link onClick={toggleSidebar} to="/contact" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 text-neutral-400">
-                <span>Contact Us</span>
-                </Link>
-              </li>
-
           </ul>
         </nav>
       )}

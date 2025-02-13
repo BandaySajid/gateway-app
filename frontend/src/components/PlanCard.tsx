@@ -28,14 +28,14 @@ export function PlanCard({
   customButtonText
 }: PlanCardProps) {
   return (
-    <Card className={cn(mostPopular ? "border-2 border-primary" : "", "h-full flex flex-col")}>
+    <Card className={cn(mostPopular ? "border-2 border-primary" : "", "h-full flex flex-col ")}>
       <CardHeader className="relative">
         {currentPlan && (
             <Badge className="mt-2 absolute right-4 top-2" variant="secondary">
               Current Plan
             </Badge>
           )}
-        <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+        <CardTitle className="text-2xl font-bold text-cyan-400">{title}</CardTitle>
         < CardDescription>{description}</CardDescription>
       </CardHeader>
       < CardContent className="relative flex flex-col h-full">

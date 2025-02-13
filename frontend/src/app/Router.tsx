@@ -13,6 +13,8 @@ import { AuthContext} from '@/context/AuthContext';
 import SettingsPage from './pages/Settings';
 import Plans from './pages/Plans';
 import Contact from './pages/Contact';
+import PrivacyPage from './pages/Privacy';
+import TermsPage from './pages/Terms';
 
 function Router() {
 	const authContext = useContext(AuthContext);
@@ -34,6 +36,8 @@ function Router() {
 									<Route path="/settings" element={<SettingsPage />} />
 									<Route path="/plans" element={<Plans />} />
 									<Route path="/contact" element={<Contact />} />
+									<Route path="/privacy" element={<PrivacyPage />} />
+									<Route path="/terms" element={<TermsPage />} />
 									<Route path="/dashboard" element={<Navigate to="/rules" replace={true} />} />
 									<Route path="*" element={<NotFound />} />
 								</>
@@ -42,6 +46,8 @@ function Router() {
 									<Route path="/" element={<Home />} />
 									<Route path="/auth" element={<Auth />} />
 									<Route path="/plans" element={<Plans />} />
+									<Route path="/privacy" element={<PrivacyPage />} />
+									<Route path="/terms" element={<TermsPage />} />
 									<Route path="/contact" element={<Contact />} />
 									<Route path="*" element={<Navigate to="/auth" replace={true} />} />
 								</>
