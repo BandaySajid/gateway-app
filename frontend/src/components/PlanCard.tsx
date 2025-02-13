@@ -52,7 +52,7 @@ export function PlanCard({
         </div>
 
         <div className={cn("mt-auto", upgradable ? "" : "hidden")}>
-          <Button variant={'default'} className="w-full mt-4" onClick={onUpgrade}>
+          <Button variant={'default'} className="w-full mt-4 bg-neutral-50 text-neutral-900 hover:bg-neutral-50/90" onClick={onUpgrade}>
             {customButtonText ? customButtonText :"Upgrade"}
           </Button> 
         {mostPopular && !currentPlan && (

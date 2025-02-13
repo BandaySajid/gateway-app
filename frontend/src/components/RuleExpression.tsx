@@ -56,45 +56,45 @@ export default function RuleExpression({ onDelete, showDelete, logic, onAddExpre
 		<div className="space-y-2">
 			{logic && (
 				<Select defaultValue={logic} disabled>
-					<SelectTrigger className="w-[100px]">
+					<SelectTrigger className="w-[100px] border-neutral-800 ring-offset-neutral-950 placeholder:text-neutral-400 focus:ring-neutral-300">
 						<SelectValue>{logic.toUpperCase()}</SelectValue>
 					</SelectTrigger>
 				</Select>
 			)}
 			<div className="flex flex-wrap items-center gap-2">
 				<Select value={selectedType} onValueChange={handleRule}>
-					<SelectTrigger className="w-[200px]">
+					<SelectTrigger className="w-[200px] border-neutral-800 ring-offset-neutral-950 placeholder:text-neutral-400 focus:ring-neutral-300">
 						<SelectValue placeholder="Select field" />
 					</SelectTrigger>
-					<SelectContent>
+					<SelectContent className='border-neutral-800 bg-neutral-950 text-neutral-50'>
 						{Object.keys(constraints)?.map((rule) => (
-							<SelectItem key={rule} value={rule}>{rule}</SelectItem>
+							<SelectItem className='focus:bg-neutral-800 focus:text-neutral-50' key={rule} value={rule}>{rule}</SelectItem>
 						))}
 					</SelectContent>
 				</Select>
 				<Select value={selectedOperator} onValueChange={handleOperator}>
-					<SelectTrigger className="w-[220px]">
+					<SelectTrigger className="w-[220px] border-neutral-800 ring-offset-neutral-950 placeholder:text-neutral-400 focus:ring-neutral-300">
 						<SelectValue placeholder="Select operator" />
 					</SelectTrigger>
-					<SelectContent>
+					<SelectContent className='border-neutral-800 bg-neutral-950 text-neutral-50'>
 						{constraints[selectedType as keyof typeof constraints]?.map((op, i) => (
-							<SelectItem key={i} value={op}>{op}</SelectItem>
+							<SelectItem className='focus:bg-neutral-800 focus:text-neutral-50' key={i} value={op}>{op}</SelectItem>
 						))}
 					</SelectContent>
 				</Select>
-				<Input className="flex-grow" placeholder="Enter value" value={value} onChange={handleValue} />
+				<Input className="flex-grow border-neutral-800 file:text-neutral-50 placeholder:text-neutral-400 focus-visible:ring-neutral-300" placeholder="Enter value" value={value} onChange={handleValue} />
 				{showDelete && (
-					<Button type="button" variant="ghost" size="icon" onClick={onDelete}>
+					<Button type="button" variant="ghost" size="icon" className='hover:bg-neutral-800 hover:text-neutral-50' onClick={onDelete}>
 						<X className="h-4 w-4" />
 					</Button>
 				)}
 			</div>
 			{isLast && (
 				<div className="flex gap-2 mt-2">
-					<Button type="button" variant="outline" onClick={() => onAddExpression('and')}>
+					<Button type="button" className='border-neutral-800 bg-neutral-950 hover:bg-neutral-800 hover:text-neutral-50' variant="outline" onClick={() => onAddExpression('and')}>
 						AND
 					</Button>
-					<Button type="button" variant="outline" onClick={() => onAddExpression('or')}>
+					<Button type="button" variant="outline" className='border-neutral-800 bg-neutral-950 hover:bg-neutral-800 hover:text-neutral-50' onClick={() => onAddExpression('or')}>
 						OR
 					</Button>
 				</div>

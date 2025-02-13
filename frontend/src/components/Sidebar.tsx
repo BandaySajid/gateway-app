@@ -36,7 +36,7 @@ const Sidebar = () => {
       <Button
         variant={"outline"}
         onClick={toggleSidebar}
-        className={`p-4 text-left ${isCollapsed ? 'absolute': 'fixed'} hover:bg-gray-700 transition-colors duration-200 right-2 top-6 z-3 bg-neutral-900 text-neutral-50 border-neutral-800`}
+        className={`p-4 text-left ${isCollapsed ? 'absolute': 'fixed'} hover:bg-gray-700 transition-colors duration-200 right-2 top-6 z-3 bg-neutral-900 text-neutral-50 border-neutral-800 hover:bg-neutral-800 hover:text-neutral-50`}
       >
         {isCollapsed ? (
           <MenuIcon className="h-6 w-6" />
@@ -60,7 +60,7 @@ const Sidebar = () => {
                 < hr className='border-gray-700 my-2'></hr>
                 <li>
                 <Link onClick={toggleSidebar} to="/dashboard" className="flex items-center space-x-2 hover:bg-neutral-700 p-2 rounded hover:bg-neutral-900 hover:text-cyan-400 text-neutral-400">
-                  <span>Dashboard <Badge  variant={'outline'}>coming soon</Badge></span>
+                  <span>Dashboard <Badge className='text-neutral-50' variant={'outline'}>coming soon</Badge></span>
                 </Link>
                 </li>
                 </>
@@ -86,22 +86,22 @@ const Sidebar = () => {
               <li>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant={'outline'} className="ml-1 flex items-center space-x-2  p-2 rounded hover:bg-neutral-900 text-red-600">
+                    <Button variant={'outline'} className="ml-1 flex items-center space-x-2 p-2 rounded text-red-600 border-neutral-800 bg-neutral-950 hover:bg-neutral-900 hover:text-neutral-50">
                       <span>Log Out</span>
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className='border-neutral-800 bg-neutral-950'>
                     <AlertDialogHeader>
                       <AlertDialogTitle className='text-white'>Are you sure you want to log out?</AlertDialogTitle>
-                      <AlertDialogDescription>
+                      <AlertDialogDescription className='text-neutral-400'>
                         You will be redirected to the login page.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel className='text-white'>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className='text-white border-neutral-800 bg-neutral-950 hover:bg-neutral-800 hover:text-neutral-50'>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                       onClick={() => ac.logout()}
-                      className='text-white'
+                      className='shadow-sm bg-red-900 text-neutral-50 hover:bg-red-900/90'
                       >
                         Log Out
                       </AlertDialogAction>

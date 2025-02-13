@@ -10,7 +10,7 @@ export function AccountForm() {
   const user = authContext?.authState.user;
 
   return (
-    <Card className="w-full max-w-md bg-neutral-900 border border-neutral-700 text-neutral-50">
+    <Card className="w-full max-w-md bg-neutral-950 border border-neutral-700 text-neutral-50">
       <CardHeader>
         <CardTitle>Account Details</CardTitle>
       </CardHeader>

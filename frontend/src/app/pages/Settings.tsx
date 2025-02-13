@@ -10,7 +10,7 @@ export default function SettingsPage() {
           Manage your account settings and preferences.
         </p>
       </div>
-      <Separator className="mb-6" />
+      <Separator className="mb-6 bg-neutral-800" />
       <AccountForm />
     </div>
   )

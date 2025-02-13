@@ -97,7 +97,7 @@ const Rules = () => {
   };
 
   return (
-    <Card className="w-full md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col bg-neutral-900 border border-neutral-700 text-neutral-50">
+    <Card className="w-full md:mx-auto lg:max-w-7xl p-2 rounded-sm shadow-lg flex flex-col border border-neutral-800 text-neutral-50 bg-neutral-950">
       <CardHeader>
         <CardTitle>
           <Back />
@@ -114,55 +114,55 @@ const Rules = () => {
           <h2 className="text-xl text-gray-400 font-bold mb-2">List of Rules</h2>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className='hover:bg-neutral-800/50 data-[state=selected]:bg-neutral-800'>
                 <TableHead className='border-b border-neutral-700'>Name</TableHead>
                 <TableHead className="text-right border-b border-neutral-700">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {rules.map((rule) => (
-                <TableRow key={rule.id} className='text-gray-900'>
+                <TableRow key={rule.id} className='text-gray-900 hover:bg-neutral-800/50'>
                   <TableCell className='text-blue-400 hover:underline'><Link to={`/rules/${rule.id}`}>{rule.name.length > 20 ? rule.name.substring(0, 20) + "..." : rule.name}</Link></TableCell>
 
                   <TableCell className="text-right">
                     <div className="flex space-x-2 justify-end">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0 text-white">
+                          <Button variant="ghost" className="hover:bg-neutral-800 hover:text-neutral-50 h-8 w-8 p-0 text-white">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent className='border-neutral-800 bg-neutral-950 text-neutral-50' align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem className='cursor-pointer'
+                          <DropdownMenuItem className='focus:bg-neutral-800 focus:text-neutral-50 cursor-pointer'
                             onClick={() => navigator.clipboard.writeText(rule.id)}
                           >
                             Copy Host ID
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem asChild>
-                            <Link to={`/rules/${rule.id}`} className='cursor-pointer'>
+                          <DropdownMenuItem asChild className='focus:bg-neutral-800 focus:text-neutral-50'>
+                            <Link to={`/rules/${rule.id}`} className='cursor-pointer '>
                               Edit
                             </Link>
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem className='focus:bg-neutral-800 focus:text-neutral-50'>
                             <AlertDialog>
                               <AlertDialogTrigger asChild className='cursor-pointer'>
                                 <Link to={`#`} className='cursor-pointer w-full text-red-400'>
                                   Delete
                                 </Link>
                               </AlertDialogTrigger>
-                              <AlertDialogContent>
+                              <AlertDialogContent className='border-neutral-800 bg-neutral-950'>
                                 <AlertDialogHeader>
                                   <AlertDialogTitle className='text-white'>Are you absolutely sure?</AlertDialogTitle>
-                                  <AlertDialogDescription>
+                                  <AlertDialogDescription className='text-neutral-400'>
                                     This action cannot be undone. This will permanently delete this rule.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel className='text-white'>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => deleteRule(rule.id)}>
+                                  <AlertDialogCancel className='text-white border-neutral-800 bg-neutral-950 hover:bg-neutral-800 hover:text-neutral-50'>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction className='shadow-sm bg-red-900 text-neutral-50 hover:bg-red-900/90' onClick={() => deleteRule(rule.id)}>
                                     Delete
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
