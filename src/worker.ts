@@ -75,6 +75,26 @@ interface AuthRequest extends IRequest {
 	user: UserData;
 }
 
+const CLOUDFLARE_URI_RULE_PATH_ID = "5c6abde6f9a74cdcbe9037b435248137";
+
+//TODO:
+const parseProductionCloudflaredUriPath = (url: string) => {
+	if (
+		typeof url === 'string'
+	) {
+		let u = new URL(url);
+		const basePath = `/${CLOUDFLARE_URI_RULE_PATH_ID}`;
+
+		if (u.pathname.startsWith(basePath)) {
+			u.pathname = u.pathname.slice(basePath.length);
+			const newUrl = u.toString();
+			return newUrl;
+		}
+	}
+
+	return url;
+}
+
 const withAuthenticatedUser: RequestHandler = async (req: IRequest, env: Env) => {
 	const authHeader = req.headers.get('Authorization');
 	const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
@@ -580,8 +600,16 @@ async function runScheduledTasks(event: ScheduledController, env: Env, ctx: Exec
 
 export default {
 	fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		let r: Request
+
+		if (env.ENV === "production") {
+			r = new Request(parseProductionCloudflaredUriPath(request.url), request) // for handling cloudflare url rewritten rule (hanlding ratelimiting on free plan for this worker) url. 
+		} else {
+			r = request;
+		}
+
 		return router
-			.fetch(request, env, ctx)
+			.fetch(r, env, ctx)
 			.then(json)
 			.catch((error: Error) => {
 				console.error('Error during fetch', error);
