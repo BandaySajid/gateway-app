@@ -111,6 +111,12 @@ const Rules = () => {
           </Link>
         </div>
         <div className="w-full overflow-x-auto">
+          <div className = "mb-4 text-gray-400" >
+            For instructions on how to create manage and use rules, please visit our <a href = "https://docs.amplizard.com/"
+            target = "_blank"
+            rel = "noopener noreferrer"
+            className = "text-blue-500 hover:underline" > documentation </a>.
+          </div>
           <h2 className="text-xl text-gray-400 font-bold mb-2">List of Rules</h2>
           <Table>
             <TableHeader>
@@ -139,6 +145,11 @@ const Rules = () => {
                             onClick={() => navigator.clipboard.writeText(rule.id)}
                           >
                             Copy Host ID
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className='focus:bg-neutral-800 focus:text-neutral-50 cursor-pointer'
+                            onClick={() => navigator.clipboard.writeText("gateway.amplizard.com")}
+                          >
+                            Copy Gateway Url
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem asChild className='focus:bg-neutral-800 focus:text-neutral-50'>
