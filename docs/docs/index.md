@@ -4,8 +4,10 @@ Amplizard is a powerful tool designed to protect your applications from abuse by
 
 **Benefits of using Amplizard:**
 
-*   **Rate Limiting:** Protect your servers from being overwhelmed by excessive requests, ensuring availability and stability.
-*   **Easy Integration:** Simple to set up and integrate with your existing infrastructure.
+*   **Rate Limiting:** Protect your servers from being overwhelmed by excessive requests, ensuring availability and stability. Also reduces resource usage on your backend.
+*   **Cost-Effective:** Rate limited requests are handled at no charge.
+*   **Cheap:** Very cheap to run.
+*   **Easy Integration:** Simple to set up and easy to use.
 
 ## How to Use Amplizard
 
