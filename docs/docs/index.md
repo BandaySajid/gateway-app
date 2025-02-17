@@ -45,3 +45,15 @@ Get started with Amplizard in a few easy steps:
     ```
 
     This header tells Amplizard which host configuration to apply to the incoming request, ensuring the correct rate limiting rules are enforced.
+
+    **Rate Limited Response:**
+
+    When a request is rate limited, Amplizard gateway will return a 200 status code with the following JSON body:
+
+    ```json
+    {
+      "status": "ratelimited",
+      "code": 429,
+      "message": "Too many requests, slow down."
+    }
+    ```
