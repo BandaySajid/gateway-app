@@ -603,7 +603,7 @@ export default {
 		let r: Request
 
 		if (env.ENV === "production") {
-			r = new Request(parseProductionCloudflaredUriPath(request.url), request) // for handling cloudflare url rewritten rule (hanlding ratelimiting on free plan for this worker) url. 
+			r = new Request(parseProductionCloudflaredUriPath(request.url), request) // for handling cloudflare url rewritten rule (hanlding ratelimiting on free plan for this worker) url.
 		} else {
 			r = request;
 		}
