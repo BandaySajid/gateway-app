@@ -1,5 +1,5 @@
 import { IRequest, RequestHandler, Router, json } from 'itty-router';
-import { buildRule, Rule, RuleBuildError, ruleConstraints } from './rules';
+import { buildRule, Rule, RuleBuildError, ruleConstraints, RuleTypes } from './rules';
 import { decodeProtectedHeader, importJWK, jwtVerify } from 'jose';
 import { JWTExpired } from 'jose/errors';
 import { validateHostData } from './validator';
@@ -7,7 +7,7 @@ import { validateHostData } from './validator';
 enum Plan {
 	free = 'free',
 	// basic = 'basic',
-	premium = 'premium'
+	premium = 'premium',
 }
 
 interface HostData {
@@ -23,7 +23,7 @@ interface HostData {
 }
 
 interface AuthRequestData {
-	token: string
+	token: string;
 }
 
 interface UserData {
@@ -34,10 +34,7 @@ interface UserData {
 }
 
 function isAuthRequestData(arg: any): arg is AuthRequestData {
-	return (
-		arg &&
-		typeof arg.token === 'string'
-	);
+	return arg && typeof arg.token === 'string';
 }
 
 interface GooglePublicKey {
@@ -50,16 +47,15 @@ interface GooglePublicKey {
 }
 
 interface GooglePublicKeysReponse {
-	keys: GooglePublicKey[]
+	keys: GooglePublicKey[];
 }
 
-
 const CORS_HEADERS = {
-	'Access-Control-Allow-Origin': "*",
+	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 	'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 	'Access-Control-Allow-Credentials': 'true',
-}
+};
 
 const TWENTY_FOUR_HOURS = 60 * 60 * 24;
 
@@ -75,13 +71,11 @@ interface AuthRequest extends IRequest {
 	user: UserData;
 }
 
-const CLOUDFLARE_URI_RULE_PATH_ID = "5c6abde6f9a74cdcbe9037b435248137";
+const CLOUDFLARE_URI_RULE_PATH_ID = '5c6abde6f9a74cdcbe9037b435248137';
 
 //TODO:
 const parseProductionCloudflaredUriPath = (url: string) => {
-	if (
-		typeof url === 'string'
-	) {
+	if (typeof url === 'string') {
 		let u = new URL(url);
 		const basePath = `/${CLOUDFLARE_URI_RULE_PATH_ID}`;
 
@@ -93,19 +87,19 @@ const parseProductionCloudflaredUriPath = (url: string) => {
 	}
 
 	return url;
-}
+};
 
 const withAuthenticatedUser: RequestHandler = async (req: IRequest, env: Env) => {
 	const authHeader = req.headers.get('Authorization');
 	const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
-	const ru = env.FRONTEND_HOST + "/auth";
+	const ru = env.FRONTEND_HOST + '/auth';
 	if (!token) {
 		const response = new Response(null, {
 			status: 302,
 			headers: {
-				'Location': ru,
-				...CORS_HEADERS
-			}
+				Location: ru,
+				...CORS_HEADERS,
+			},
 		});
 		return response;
 	}
@@ -117,27 +111,26 @@ const withAuthenticatedUser: RequestHandler = async (req: IRequest, env: Env) =>
 			const response = new Response(null, {
 				status: 302,
 				headers: {
-					'Location': ru,
-					...CORS_HEADERS
-				}
+					Location: ru,
+					...CORS_HEADERS,
+				},
 			});
 			return response;
-
 		}
 
 		req.user = user;
 	} catch (err) {
-		console.error("Error decoding jwt:", err);
+		console.error('Error decoding jwt:', err);
 		const response = new Response(null, {
 			status: 302,
 			headers: {
-				'Location': ru,
-				...CORS_HEADERS
-			}
+				Location: ru,
+				...CORS_HEADERS,
+			},
 		});
 		return response;
 	}
-}
+};
 
 async function verifyGoogleAuthToken(token: string, env: Env): Promise<UserData | null> {
 	let user = {} as UserData;
@@ -146,7 +139,7 @@ async function verifyGoogleAuthToken(token: string, env: Env): Promise<UserData 
 
 		if (!keysString) {
 			console.error('Google OAuth keys not found in KV.');
-			const rotated = await rotateAuthToken(env.KV)
+			const rotated = await rotateAuthToken(env.KV);
 
 			if (!rotated) return null;
 
@@ -155,7 +148,7 @@ async function verifyGoogleAuthToken(token: string, env: Env): Promise<UserData 
 
 		const keys: GooglePublicKey[] = JSON.parse(keysString);
 		const kid = decodeProtectedHeader(token).kid;
-		const matchedKey = keys.find(key => key.kid === kid);
+		const matchedKey = keys.find((key) => key.kid === kid);
 
 		if (!matchedKey) {
 			console.warn(`No matching key found for kid: ${kid}`);
@@ -180,7 +173,7 @@ async function verifyGoogleAuthToken(token: string, env: Env): Promise<UserData 
 		user = {
 			id: payload.sub,
 			name: payload.name,
-			email: payload.email
+			email: payload.email,
 		} as UserData;
 
 		return user;
@@ -208,7 +201,7 @@ const preflight = async (req: Request) => {
 			headers: CORS_HEADERS,
 		});
 	}
-}
+};
 
 const router = Router();
 
@@ -221,8 +214,7 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 
 	const vErr = validateHostData(body);
 
-	if (vErr)
-		return json({ success: false, error: vErr }, { status: 400 });
+	if (vErr) return json({ success: false, error: vErr }, { status: 400 });
 
 	try {
 		let id = 0;
@@ -232,6 +224,11 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 
 			for (const exp of body.expressions) {
 				id++;
+				if (exp.type === RuleTypes.REQUEST_METHOD) {
+					if (typeof exp.value === 'string') {
+						exp.value = exp.value.toUpperCase();
+					}
+				}
 				const r = buildRule(id, exp.type, exp.operator, exp.value, exp.logic);
 				expressions.push(r);
 			}
@@ -247,14 +244,22 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 			return json({ success: false, error: 'duration should be less than that!' }, { status: 400 });
 		}
 
-		const userPlan = await env.DB.prepare(`
+		const userPlan = (await env.DB.prepare(
+			`
 			SELECT plan FROM users WHERE id = ?
-		`).bind(req.user.id).first('plan') as Plan;
+		`,
+		)
+			.bind(req.user.id)
+			.first('plan')) as Plan;
 
 		if (userPlan === Plan.free) {
-			const rulesCount = await env.DB.prepare(`
+			const rulesCount = (await env.DB.prepare(
+				`
 				SELECT COUNT(*) FROM rules WHERE user_id = ?
-			`).bind(req.user.id).first('COUNT(*)') as number;
+			`,
+			)
+				.bind(req.user.id)
+				.first('COUNT(*)')) as number;
 			if (rulesCount >= 2) {
 				return json({ success: false, error: 'Free plan is limited to 2 rules' }, { status: 400 });
 			}
@@ -277,7 +282,7 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 				body.frequency,
 				body.filter,
 				expressions ? JSON.stringify(expressions) : null,
-				req.user.id
+				req.user.id,
 			)
 			.run();
 
@@ -297,10 +302,10 @@ router.post('/rules', withAuthenticatedUser, async (req: AuthRequest, env: Env, 
 async function purgeHostDataCache(id: string, env: Env) {
 	try {
 		const r = await fetch(`${env.GATEWAY_COMMUNICATOR_HOST}/cache/hosts/${id}`, {
-			method: "DELETE",
+			method: 'DELETE',
 			headers: {
-				"Authorization": env.GATEWAY_COMMUNICATOR_SECRET
-			}
+				Authorization: env.GATEWAY_COMMUNICATOR_SECRET,
+			},
 		});
 
 		if (r.status !== 200) {
@@ -308,7 +313,7 @@ async function purgeHostDataCache(id: string, env: Env) {
 			console.log('error purging host data cache', jr);
 		}
 	} catch (err) {
-		console.error("Error purging host data cache", err);
+		console.error('Error purging host data cache', err);
 	}
 }
 
@@ -323,8 +328,7 @@ router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: En
 		const body: HostData = await req.json();
 
 		const vErr = validateHostData(body);
-		if (vErr)
-			return json({ success: false, error: vErr }, { status: 400 });
+		if (vErr) return json({ success: false, error: vErr }, { status: 400 });
 
 		const { results } = await env.DB.prepare(`SELECT * FROM rules WHERE id = ? AND user_id = ?`).bind(id, req.user.id).all();
 
@@ -341,6 +345,11 @@ router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: En
 			expressions = [];
 			for (const exp of body.expressions) {
 				rule_id++;
+				if (exp.type === RuleTypes.REQUEST_METHOD) {
+					if (typeof exp.value === 'string') {
+						exp.value = exp.value.toUpperCase();
+					}
+				}
 				const r = buildRule(rule_id, exp.type, exp.operator, exp.value, exp.logic);
 				expressions.push(r);
 			}
@@ -374,7 +383,7 @@ router.put('/rules/:id', withAuthenticatedUser, async (req: AuthRequest, env: En
 			)
 			.run();
 
-		ctx.waitUntil(purgeHostDataCache(id, env))
+		ctx.waitUntil(purgeHostDataCache(id, env));
 
 		return json({ success: true, id: id }, { status: 200 });
 	} catch (err) {
@@ -486,7 +495,7 @@ router.get('/constraints', async (req: IRequest, env: Env, ctx: ExecutionContext
 	}
 });
 
-router.post("/auth/google/callback", async (req: IRequest, env: Env, ctx: ExecutionContext) => {
+router.post('/auth/google/callback', async (req: IRequest, env: Env, ctx: ExecutionContext) => {
 	const body = await req.json();
 
 	if (!isAuthRequestData(body)) {
@@ -496,28 +505,27 @@ router.post("/auth/google/callback", async (req: IRequest, env: Env, ctx: Execut
 	const token = body.token;
 
 	try {
-
 		if (!token) {
 			throw new Error('No access token received from Google');
 		}
 
-		const user = await verifyGoogleAuthToken(token, env)
+		const user = await verifyGoogleAuthToken(token, env);
 
 		if (!user) {
 			throw new Error('Authentication failed!!!');
 		}
 
-		let exUser = await env.DB.prepare("SELECT * FROM users WHERE id = ?").bind(user.id).first();
+		let exUser = await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(user.id).first();
 
 		if (!exUser) {
-			const insertResult = await env.DB.prepare("INSERT INTO users (id, name, email) VALUES (?, ?, ?)")
+			const insertResult = await env.DB.prepare('INSERT INTO users (id, name, email) VALUES (?, ?, ?)')
 				.bind(user.id, user.name, user.email)
 				.run();
 
 			if (insertResult.success) {
 			} else {
-				console.error("Failed to create new user:", insertResult.error);
-				return json({ success: false, error: "Failed to create new user" }, { status: 500 });
+				console.error('Failed to create new user:', insertResult.error);
+				return json({ success: false, error: 'Failed to create new user' }, { status: 500 });
 			}
 		}
 
@@ -525,29 +533,27 @@ router.post("/auth/google/callback", async (req: IRequest, env: Env, ctx: Execut
 
 		return json({ success: true, user, token }, { status: 200 });
 	} catch (error) {
-		console.error("Error during token exchange:", error);
-		return json({ success: false, error: "Failed to authenticate" }, { status: 400 });
+		console.error('Error during token exchange:', error);
+		return json({ success: false, error: 'Failed to authenticate' }, { status: 400 });
 	}
 });
 
-router.get("/plans", withAuthenticatedUser, async (req: AuthRequest, env: Env, ctx: ExecutionContext) => {
+router.get('/plans', withAuthenticatedUser, async (req: AuthRequest, env: Env, ctx: ExecutionContext) => {
 	try {
-		const result = await env.DB.prepare("SELECT plan FROM users WHERE id = ?")
-			.bind(req.user.id)
-			.first<{ plan: number }>();
+		const result = await env.DB.prepare('SELECT plan FROM users WHERE id = ?').bind(req.user.id).first<{ plan: number }>();
 
 		if (result) {
 			return json({ success: true, plan: result.plan }, { status: 200 });
 		} else {
-			return json({ success: false, error: "User not found" }, { status: 404 });
+			return json({ success: false, error: 'User not found' }, { status: 404 });
 		}
 	} catch (error) {
-		console.error("Error during plan retrieval:", error);
-		return json({ success: false, error: "Failed to retrieve plan" }, { status: 500 });
+		console.error('Error during plan retrieval:', error);
+		return json({ success: false, error: 'Failed to retrieve plan' }, { status: 500 });
 	}
 });
 
-router.post("/plans/upgrade", withAuthenticatedUser, async (req: AuthRequest, env: Env, ctx: ExecutionContext) => {
+router.post('/plans/upgrade', withAuthenticatedUser, async (req: AuthRequest, env: Env, ctx: ExecutionContext) => {
 	const { plan } = await req.json<{ plan: string }>();
 
 	if (!Plan[plan as keyof typeof Plan]) {
@@ -555,19 +561,17 @@ router.post("/plans/upgrade", withAuthenticatedUser, async (req: AuthRequest, en
 	}
 
 	try {
-		const updateResult = await env.DB.prepare("UPDATE users SET plan = ? WHERE id = ?")
-			.bind(plan, req.user.id)
-			.run();
+		const updateResult = await env.DB.prepare('UPDATE users SET plan = ? WHERE id = ?').bind(plan, req.user.id).run();
 
 		if (updateResult.success) {
 			return json({ success: true }, { status: 200 });
 		} else {
-			console.error("Failed to update user plan:", updateResult.error);
-			return json({ success: false, error: "Failed to update user plan" }, { status: 400 });
+			console.error('Failed to update user plan:', updateResult.error);
+			return json({ success: false, error: 'Failed to update user plan' }, { status: 400 });
 		}
 	} catch (error) {
-		console.error("Error during plan upgrade:", error);
-		return json({ success: false, error: "Failed to upgrade plan" }, { status: 500 });
+		console.error('Error during plan upgrade:', error);
+		return json({ success: false, error: 'Failed to upgrade plan' }, { status: 500 });
 	}
 });
 
@@ -600,10 +604,10 @@ async function runScheduledTasks(event: ScheduledController, env: Env, ctx: Exec
 
 export default {
 	fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		let r: Request
+		let r: Request;
 
-		if (env.ENV === "production") {
-			r = new Request(parseProductionCloudflaredUriPath(request.url), request) // for handling cloudflare url rewritten rule (hanlding ratelimiting on free plan for this worker) url.
+		if (env.ENV === 'production') {
+			r = new Request(parseProductionCloudflaredUriPath(request.url), request); // for handling cloudflare url rewritten rule (hanlding ratelimiting on free plan for this worker) url.
 		} else {
 			r = request;
 		}
@@ -622,7 +626,7 @@ export default {
 					}
 				}
 				return response;
-			})
+			});
 	},
 	scheduled: runScheduledTasks,
 } satisfies ExportedHandler<Env>;

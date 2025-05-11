@@ -32,19 +32,19 @@ export type RuleValue = {
 	value: string | boolean | number | undefined;
 };
 
-export type Logic = "and" | "or" | null;
+export type Logic = 'and' | 'or' | null;
 
 export interface Rule {
 	id: number;
 	type: RuleTypes;
 	operator: RuleOperators;
-	value: RuleValue;
-	logic: Logic
+	value: RuleValue | string;
+	logic: Logic;
 }
 
 interface RuleBuildErrorData {
 	type?: string;
-	value?: RuleValue;
+	value?: RuleValue | string;
 	operator?: string;
 	logic?: Logic;
 }
@@ -59,7 +59,7 @@ export class RuleBuildError extends Error {
 	}
 }
 
-export function buildRule(id: number, type: RuleTypes, operator: RuleOperators, value: RuleValue, logic: Logic): Rule {
+export function buildRule(id: number, type: RuleTypes, operator: RuleOperators, value: RuleValue | string, logic: Logic): Rule {
 	const r = { value, operator, type };
 
 	if (!(type in RuleTypes)) {
@@ -74,7 +74,7 @@ export function buildRule(id: number, type: RuleTypes, operator: RuleOperators, 
 		throw new RuleBuildError('Invalid Rule Value!', r);
 	}
 
-	if (logic && (logic !== 'and' && logic !== 'or')) {
+	if (logic && logic !== 'and' && logic !== 'or') {
 		throw new RuleBuildError('Invalid Rule Logic!', r);
 	}
 
